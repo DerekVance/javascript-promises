@@ -274,7 +274,7 @@ messages.remove({}).then(function () {
 })
 ```
 
-> YOUR ANSWER HERE.  
+> Remove all messages. _When_ the records are removed, _then_ insert Joe. _When_ Joe is done being inserted, _then_ Joe is passed to the next promise and is used to insert Joe's ID as the sender of the message. _When_ the Id is inserted, _then_ message is passed through, the message is logged and the database is closed.
 
 Take a look at your answer above.  Does it account for the fact that the third callback gets `joe` passed to it?  How did that happen?
 

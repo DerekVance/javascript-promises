@@ -24,7 +24,7 @@
     <script type="text/javascript">
       document.querySelector('[data-behavior=get-all]').addEventListener('click', function (e) {
         e.preventDefault()
-        $.getJSON('/data/users.json', function (users) {
+        $.getJSON('/data/users.json').then( function (users) {
           document.querySelector('[data-container=all-users]').innerText = users.map(function (user) {
             return user.name
           }).join(", ")
@@ -33,12 +33,12 @@
 
       document.querySelector('[data-behavior=get-first]').addEventListener('click', function (e) {
         e.preventDefault()
-        $.getJSON('/data/users.json', function (users) {
+        $.getJSON('/data/users.json').then(function (users) {
           var theUser = users[0]
           console.log('The first user is: ', theUser);
-          $.getJSON('/data/users/' + theUser.username + '.json', function (user) {
+          $.getJSON('/data/users/' + theUser.username + '.json').then(function (user) {
             console.log('The full user data is: ', user);
-            $.getJSON(user.bookmarks_path, function (bookmarks) {
+            $.getJSON(user.bookmarks_path).then(function (bookmarks) {
               console.log("The user's username is: ", theUser.username);
               console.log("The user's email is: ", user.email);
               console.log("The user's bookmarks are: ", bookmarks);
@@ -57,12 +57,12 @@
 
       document.querySelector('[data-behavior=get-last]').addEventListener('click', function (e) {
         e.preventDefault()
-        $.getJSON('/data/users.json', function (users) {
+        $.getJSON('/data/users.json').then(function (users) {
           var theUser = users[users.length - 1]
           console.log('The user is: ', theUser);
-          $.getJSON('/data/users/' + theUser.username + '.json', function (user) {
+          $.getJSON('/data/users/' + theUser.username + '.json').then(function (user) {
             console.log('The full user data is: ', user);
-            $.getJSON(user.bookmarks_path, function (bookmarks) {
+            $.getJSON(user.bookmarks_path).then(function (bookmarks) {
               console.log("The user's username is: ", theUser.username);
               console.log("The user's email is: ", user.email);
               console.log("The user's bookmarks are: ", bookmarks);
