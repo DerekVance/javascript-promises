@@ -136,7 +136,7 @@ console.log(promise.then.toString());
 
 What's happening in that snippet?  Take a second to write out what you think is going on:
 
-> YOUR ANSWER HERE
+>A promise was called and if it is rejected then it sets a new variable for tthe value of this. Then defines a variable for a new promise. If rejected it if has a handler for the new promise and rejected promise or brings the error to the new promises reject method. The same goes for onFullfill. The new promise is now returned with either a resolved promise value or a rejected promise reason.
 
 So it turns out that Monk methods do indeed return a promise that supports `then`, so we can make use of that by changing the callback to a `then`:
 
@@ -209,7 +209,7 @@ That looks like the whole doc.  SO - now you know via experimentation that the `
 
 From reading and experimenting, what do you know about Promises and `then`?  Take a minute to write your emerging understanding here:
 
-> YOUR THOUGHTS HERE
+> Promises allow you to do something and use then to do something after. giving you the ablility to write code asynchronous code and be specific about when to fire a function so it has the information you need to complete your task.
 
 **#4 - Convert simple callbacks**
 
