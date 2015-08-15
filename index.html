@@ -31,55 +31,60 @@
         })
       })
 
+      function getUserData(position) {
+        var user = {};
+        return $.getJSON('/data/users.json').then(function (users) {
+          if (position === 'last') {
+            position = users.length -1
+          }
+          user.name = users[position];
+          console.log('The first user is: ', user);
+        return $.getJSON('/data/users/' + user.name.username + '.json')
+      }).then(function (profile) {
+          user.profile = profile;
+          console.log('The full user data is: ', user);
+          return $.getJSON(profile.bookmarks_path)
+        }).then(function(bookmarks){
+          user.bookmarks = bookmarks;
+          return user;
+        })
+      }
+
       document.querySelector('[data-behavior=get-first]').addEventListener('click', function (e) {
         e.preventDefault()
-        $.getJSON('/data/users.json').then(function (users) {
-          var theUser = users[0]
-          console.log('The first user is: ', theUser);
-          $.getJSON('/data/users/' + theUser.username + '.json').then(function (user) {
-            console.log('The full user data is: ', user);
-            $.getJSON(user.bookmarks_path).then(function (bookmarks) {
-              console.log("The user's username is: ", theUser.username);
-              console.log("The user's email is: ", user.email);
-              console.log("The user's bookmarks are: ", bookmarks);
-              document.querySelector('[data-container=first]').innerText = [
-                "The user with the username",
-                theUser.username,
-                "and the email",
-                user.email,
-                "has bookmarked",
-                bookmarks.join(", ")
-              ].join(" ")
-            })
-          })
+        getUserData(0).then(function (allData) {
+          console.log("The user's username is: ", allData.name.username);
+          console.log("The user's email is: ", allData.profile.email);
+          console.log("The user's bookmarks are: ", allData.bookmarks);
+          document.querySelector('[data-container=first]').innerText = [
+            "The user with the username",
+            allData.name.username,
+            "and the email",
+            allData.profile.email,
+            "has bookmarked",
+            allData.bookmarks.join(", ")
+          ].join(" ")
         })
       })
 
       document.querySelector('[data-behavior=get-last]').addEventListener('click', function (e) {
         e.preventDefault()
-        $.getJSON('/data/users.json').then(function (users) {
-          var theUser = users[users.length - 1]
-          console.log('The user is: ', theUser);
-          $.getJSON('/data/users/' + theUser.username + '.json').then(function (user) {
-            console.log('The full user data is: ', user);
-            $.getJSON(user.bookmarks_path).then(function (bookmarks) {
-              console.log("The user's username is: ", theUser.username);
-              console.log("The user's email is: ", user.email);
-              console.log("The user's bookmarks are: ", bookmarks);
-              var ul = document.querySelector('[data-container=last]')
-              var li1 = document.createElement('li')
-              li1.innerText = 'Username: ' + theUser.username
-              ul.appendChild(li1)
+        getUserData('last').then(function (allData) {
+          console.log("The user's username is: ", allData.name.username);
+          console.log("The user's email is: ", allData.profile.email);
+          console.log("The user's bookmarks are: ", allData.bookmarks);
+          var ul = document.querySelector('[data-container=last]')
+          var li1 = document.createElement('li')
+          li1.innerText = 'Username: ' + allData.name.username
+          ul.appendChild(li1)
 
-              var li2 = document.createElement('li')
-              li2.innerText = 'Email: ' + user.email
-              ul.appendChild(li2)
+          var li2 = document.createElement('li')
+          li2.innerText = 'Email: ' + allData.profile.email
+          ul.appendChild(li2)
 
-              var li3 = document.createElement('li')
-              li3.innerText = 'Bookmarks: ' + bookmarks.join(", ")
-              ul.appendChild(li3)
-            })
-          })
+          var li3 = document.createElement('li')
+          li3.innerText = 'Bookmarks: ' + allData.bookmarks.join(", ")
+          ul.appendChild(li3)
         })
       })
     </script>
